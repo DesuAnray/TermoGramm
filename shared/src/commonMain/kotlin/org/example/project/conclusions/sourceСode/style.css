@@ -1,0 +1,135 @@
+*{
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+     
+}
+
+.header_date{
+    position: relative;
+    min-width: 100vh;
+  
+    font-size: 16px;
+    
+}
+
+.main_screen_navigation{
+	
+	display: flex;
+	justify-content: space-between;
+}
+
+.bold_text p{
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.header_date1{
+    padding-right: 200px;
+}
+.header_second_date{
+    font-size: 10px;
+    min-width: 100vh;
+}
+.header_three_date{
+    height: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.three_stitch{
+    display: flex;
+    justify-content: space-between;
+}
+
+.miniBox{
+    width: 200px;
+}
+
+.maxBox{
+    width: 800px;
+    display: flex;
+}
+
+.template_block{
+    width: 30px;
+}
+
+.normal_box{
+    display: flex;
+}
+
+.style_table1{
+    width: 120px;
+    white-space: nowrap;
+}
+
+.style_table2 {
+    float: left;
+    width: 1400px;
+   
+}
+
+.style_table2 img{
+    width: 1008px;
+    height: 475px;
+}
+
+.style_table{
+    height: 475px;
+    align-items: center;
+    display: flex;
+    justify-content: space-around;
+}
+
+.style_kanal{
+    float: right;
+    margin: 0px;
+    transform: rotate(-90deg);
+}
+
+.style_yo{
+    padding: 3px;
+    width: 21px;
+    height: 25;
+    padding: 0px;
+    line-height: 0.6;
+    transform: rotate(-90deg);
+}
+
+.style_time{
+    padding: 0px;
+    padding-bottom: 1px;
+
+    float: right;
+    display: flex;
+    justify-content: center;
+    font-size: 11px;
+}
+
+.block{
+    width: 230px;
+}
+
+.style_time_yo{
+    
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.dow_block{
+    text-align: right;
+    display: flex;
+    justify-content: space-between;
+    
+
+}
+
+
+.prineto_setting{
+    width: 18px;
+}
+
+.dow_block_ticket{
+    font-size: 15px;
+    line-height: 1;
+}
