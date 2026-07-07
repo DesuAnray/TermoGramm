@@ -19,9 +19,13 @@ import org.jetbrains.compose.resources.painterResource
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ImageButton(text: String, image: DrawableResource,  contentDescription: String = "", onClick: () -> Unit) {
+fun ImageButton(text: String = "", image: DrawableResource,  contentDescription: String = "", onClick: () -> Unit) {
 
     Row(
+        modifier = Modifier.onClick(
+            enabled = true,
+            onClick = onClick
+        ),
         verticalAlignment = Alignment.Bottom
     ) {
         Column {
@@ -30,16 +34,13 @@ fun ImageButton(text: String, image: DrawableResource,  contentDescription: Stri
                 modifier = Modifier
                     .width(50.dp)
                     .height(50.dp)
-                    .onClick(
-                        enabled = true,
-                        onClick = onClick
-                    )
+
                     .padding(start = 20.dp, top = 20.dp)
             )
         }
         Column(
-
-        ) {
+            modifier = Modifier.padding(start = 8.dp)
+        ){
             Text(
                 text = text
             )

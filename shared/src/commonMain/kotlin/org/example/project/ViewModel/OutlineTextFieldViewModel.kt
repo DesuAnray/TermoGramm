@@ -1,11 +1,9 @@
 package org.example.project.ViewModel
 
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import org.example.project.ViewModel.InputData
 import org.example.project.xlsxHandlers.copyTemplateTo
 import org.example.project.xlsxHandlers.replacePlaceholders
 import org.example.project.xlsxHandlers.selectDirectory
@@ -14,20 +12,25 @@ import java.time.LocalTime
 import kotlin.collections.List
 
 class OutlineTextFieldViewModel: ViewModel() {
-    val constValue = ConstData("","","","")
+    val constValue = ConstData("","","",)
 
     private var _inputText = MutableStateFlow<List<InputData>>(
-        mutableListOf(InputData("", "","" ,"","")
+        mutableListOf(InputData(false, "","", "","" ,"","")
         ))
     val inputText: StateFlow<List<InputData>> = _inputText.asStateFlow()
 
-    fun createInput(newData:InputData) {
-        _inputText.value = _inputText.value + newData
+    fun createInput() {
+        _inputText.value = _inputText.value + _inputText.value.last()
     }
 
     fun updateInputDate(it: Int, newText: String) {
         val currentList =_inputText.value.toMutableList()
         currentList[it] = currentList[it].copy(date = newText)
+        _inputText.value = currentList
+    }
+    fun updateInputProjectSection(it: Int, newProjectSection: String) {
+        val currentList = _inputText.value.toMutableList()
+        currentList[it] = currentList[it].copy(projectSection = newProjectSection)
         _inputText.value = currentList
     }
     fun updateInputNumberOfTheWeldedJoint(it: Int, newText: String) {
@@ -52,6 +55,13 @@ class OutlineTextFieldViewModel: ViewModel() {
         _inputText.value = currentList
     }
 
+    fun updateOnCheckedState(it:Int, newCheck: Boolean){
+        val currentList = _inputText.value.toMutableList()
+        currentList[it] = currentList[it].copy(onChecked = newCheck)
+        _inputText.value = currentList
+    }
+
+    //Getter для получения значения из конкретного элемента в списке
     fun getInputText(i: Int): InputData {
         return _inputText.value[i]
     }
@@ -59,6 +69,23 @@ class OutlineTextFieldViewModel: ViewModel() {
     fun removeItem(){
         val currentList = _inputText.value.toMutableList()
         currentList.removeAt(_inputText.value.size - 1)
+        _inputText.value = currentList
+    }
+
+    fun removeAll(){
+        val currentList = _inputText.value.toMutableList()
+        currentList.clear()
+        currentList.add(InputData(false, "","", "","" ,"",""))
+        _inputText.value = currentList
+    }
+
+    fun removeSelectedItem(){
+        val currentList = mutableListOf<InputData>()
+        for (i in _inputText.value){
+            if (!i.onChecked){
+                currentList.add(i)
+            }
+        }
         _inputText.value = currentList
     }
 
@@ -96,14 +123,14 @@ class OutlineTextFieldViewModel: ViewModel() {
             }
 
             // 3. Даём время на запись (опционально)
-            Thread.sleep(1000)
+            Thread.sleep(500)
 
             // 4. Создаём выходной файл (с другим именем, чтобы не портить шаблон)
             val outputFile = File(folder, "${i.numberOfTheWeldedJoint}_final.xlsx")
 
             replacePlaceholders(copiedFile, outputFile, i, listTime, constValue)
 
-            Thread.sleep(1000)
+            Thread.sleep(500)
         }
     }
 }

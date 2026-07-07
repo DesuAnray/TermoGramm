@@ -74,7 +74,7 @@ fun replacePlaceholders(file: File, outputFile: File,
                     if (cell.cellType == CellType.STRING) {
                         var text = cell.stringCellValue
                         // заменяем только остальные маркеры (date уже заменён)
-                        text = text.replace("{projectSection}", constValue.diagram )
+                        text = text.replace("{projectSection}", value.projectSection )
                         text = text.replace("{object}", constValue.objectControl )
                         text = text.replace("{Supervisor}", "Руководитель работ: ${constValue.supervisor}/______________" )
                         text = text.replace("{Operator}", "Оператор термист: ${constValue.operator}/______________" )
