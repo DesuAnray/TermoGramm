@@ -26,7 +26,7 @@ fun main() = application {
     Window(
         onCloseRequest = ::exitApplication,
         title = "TermoGramm",
-     //   state = windowState
+        state = windowState
     ) {
         val viewModel: OutlineTextFieldViewModel  = viewModel {
             OutlineTextFieldViewModel()
