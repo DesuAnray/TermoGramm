@@ -47,8 +47,7 @@ import termogramm.shared.generated.resources.iconSave
 fun DynamicValueScreen(navController: NavController, viewModel: OutlineTextFieldViewModel) {
     val inputListText by viewModel.inputText.collectAsState()
     val visibleState = remember { mutableStateOf(false) }
-
-
+    val colorState = remember { mutableStateOf(Color.Red) }
 
     Row (
         modifier = Modifier.fillMaxWidth()
@@ -75,7 +74,7 @@ fun DynamicValueScreen(navController: NavController, viewModel: OutlineTextField
                                viewModel.constValue.objectControl = ""
                                viewModel.constValue.supervisor = ""
                                viewModel.constValue.operator = ""
-                               viewModel.removeAll()
+                               viewModel.removeAll(colorState.value)
 
                                navController.navigate("ConstantValueScreen")
                            }
@@ -113,7 +112,7 @@ fun DynamicValueScreen(navController: NavController, viewModel: OutlineTextField
                        contentDescription = "Add new value",
                        onClick = {
                            viewModel.createInput(
-
+                                colorState.value
                            )
                        }
                    )
@@ -137,20 +136,51 @@ fun DynamicValueScreen(navController: NavController, viewModel: OutlineTextField
                 Column(
                     modifier = Modifier.padding(10.dp)
                 ) {
-                    ColorBox(Color.Yellow)
-                    ColorBox(Color.Red)
-                    ColorBox(Color.Gray)
-                    ColorBox(Color.Green)
-                    ColorBox(Color.Magenta)
+                    ColorBox(Color(129, 194, 54, 255),
+                        {
+                            colorState.value = Color(129, 194, 54, 255)
+                        })
+                    ColorBox(Color.Red,
+                        {
+                            colorState.value = Color.Red
+                        })
+                    ColorBox(Color(87, 0, 134, 255),
+                        {
+                            colorState.value = Color(87, 0, 134, 255)
+                        })
+                    ColorBox(Color(0, 108, 12, 255),
+                        {
+                            colorState.value = Color(0, 108, 12, 255)
+                        })
+                    ColorBox(Color(0, 210, 193, 255),
+                        {
+                            colorState.value = Color(0, 210, 193, 255)
+                        }
+                        )
                 }
                 Column(
                     modifier = Modifier.padding(10.dp)
                 ) {
-                    ColorBox(Color.Cyan)
-                    ColorBox(Color(255,165,0))
-                    ColorBox(Color(0, 179, 255))
-                    ColorBox(Color(255, 128, 128))
-                    ColorBox(Color(225, 0, 255))
+                    ColorBox(Color(255, 110, 0, 255),
+                        {
+                            colorState.value = Color(255, 119, 0, 255)
+                        })
+                    ColorBox(Color(188, 3, 255, 255),
+                        {
+                            colorState.value = Color(188, 3, 255, 255)
+                        })
+                    ColorBox(Color(140, 140, 140),
+                        {
+                            colorState.value = Color(140, 140, 140)
+                        })
+                    ColorBox(Color(204, 185, 116),
+                        {
+                            colorState.value = Color(204, 185, 116)
+                        })
+                    ColorBox(Color(0, 164, 255, 255),
+                        {
+                            colorState.value = Color(0, 164, 255, 255)
+                        })
                 }
             }
         }
@@ -204,6 +234,7 @@ fun DynamicValueScreen(navController: NavController, viewModel: OutlineTextField
                                     onValueChange = { newText: String -> viewModel.updateInputDate(it, newText) },
                                     colors = OutlinedTextFieldDefaults.colors(
                                         focusedBorderColor = Color.Blue,
+                                        unfocusedBorderColor = viewModel.getInputText(it).color,
                                         focusedTextColor = Color.Black
                                     ),
 
@@ -231,6 +262,7 @@ fun DynamicValueScreen(navController: NavController, viewModel: OutlineTextField
                                     },
                                     colors = OutlinedTextFieldDefaults.colors(
                                         focusedBorderColor = Color.Blue,
+                                        unfocusedBorderColor = viewModel.getInputText(it).color,
                                         focusedTextColor = Color.Black
                                     ),
                                     shape = RoundedCornerShape(10.dp),
@@ -260,6 +292,7 @@ fun DynamicValueScreen(navController: NavController, viewModel: OutlineTextField
                                     },
                                     colors = OutlinedTextFieldDefaults.colors(
                                         focusedBorderColor = Color.Blue,
+                                        unfocusedBorderColor = viewModel.getInputText(it).color,
                                         focusedTextColor = Color.Black
                                     ),
                                     shape = RoundedCornerShape(10.dp),
@@ -289,6 +322,7 @@ fun DynamicValueScreen(navController: NavController, viewModel: OutlineTextField
                                     },
                                     colors = OutlinedTextFieldDefaults.colors(
                                         focusedBorderColor = Color.Blue,
+                                        unfocusedBorderColor = viewModel.getInputText(it).color,
                                         focusedTextColor = Color.Black
                                     ),
                                     shape = RoundedCornerShape(10.dp),
@@ -313,6 +347,7 @@ fun DynamicValueScreen(navController: NavController, viewModel: OutlineTextField
                                     onValueChange = { newText: String -> viewModel.updateInputSteelGrade(it, newText) },
                                     colors = OutlinedTextFieldDefaults.colors(
                                         focusedBorderColor = Color.Blue,
+                                        unfocusedBorderColor = viewModel.getInputText(it).color,
                                         focusedTextColor = Color.Black
                                     ),
                                     shape = RoundedCornerShape(10.dp),
@@ -339,6 +374,7 @@ fun DynamicValueScreen(navController: NavController, viewModel: OutlineTextField
                                     onValueChange = { newText: String -> viewModel.updateInputTime(it, newText) },
                                     colors = OutlinedTextFieldDefaults.colors(
                                         focusedBorderColor = Color.Blue,
+                                        unfocusedBorderColor = viewModel.getInputText(it).color,
                                         focusedTextColor = Color.Black
                                     ),
                                     shape = RoundedCornerShape(10.dp),

@@ -10,17 +10,29 @@ import org.example.project.xlsxHandlers.selectDirectory
 import java.io.File
 import java.time.LocalTime
 import kotlin.collections.List
+import androidx.compose.ui.graphics.Color
 
 class OutlineTextFieldViewModel: ViewModel() {
     val constValue = ConstData("","","",)
 
     private var _inputText = MutableStateFlow<List<InputData>>(
-        mutableListOf(InputData(false, "","", "","" ,"","")
+        mutableListOf(InputData(Color.Red,false, "","", "","" ,"","")
         ))
     val inputText: StateFlow<List<InputData>> = _inputText.asStateFlow()
 
-    fun createInput() {
-        _inputText.value = _inputText.value + _inputText.value.last()
+    fun createInput(
+        color: Color
+    ) {
+        val currentList = _inputText.value.toMutableList()
+        if (currentList.isEmpty()) {
+            currentList.add(InputData(color, false, "","", "","" ,"", ""))
+            _inputText.value = currentList
+        }
+        else{
+            val currentList = _inputText.value.lastOrNull() ?: return
+            val newValue = currentList.copy(color = color)
+            _inputText.value += newValue
+        }
     }
 
     fun updateInputDate(it: Int, newText: String) {
@@ -72,10 +84,12 @@ class OutlineTextFieldViewModel: ViewModel() {
         _inputText.value = currentList
     }
 
-    fun removeAll(){
+    fun removeAll(
+        color: Color
+    ){
         val currentList = _inputText.value.toMutableList()
         currentList.clear()
-        currentList.add(InputData(false, "","", "","" ,"",""))
+        currentList.add(InputData(color,false, "","", "","" ,"",""))
         _inputText.value = currentList
     }
 
