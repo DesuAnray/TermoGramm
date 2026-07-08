@@ -1,7 +1,6 @@
 package org.example.project.screens
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,9 +28,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.rememberLifecycleOwner
 import androidx.navigation.NavController
-import org.example.project.ViewModel.InputData
 import org.example.project.ViewModel.OutlineTextFieldViewModel
+import org.example.project.screens.UIComponents.ColorBox
 import org.example.project.screens.UIComponents.ImageButton
 import org.jetbrains.compose.resources.InternalResourceApi
 import termogramm.shared.generated.resources.IconAdd
@@ -42,12 +42,14 @@ import termogramm.shared.generated.resources.Res
 import termogramm.shared.generated.resources.iconSave
 
 
-
 @OptIn(InternalResourceApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun DynamicValueScreen(navController: NavController, viewModel: OutlineTextFieldViewModel) {
     val inputListText by viewModel.inputText.collectAsState()
     val visibleState = remember { mutableStateOf(false) }
+
+
+
     Row (
         modifier = Modifier.fillMaxWidth()
     ){
@@ -55,68 +57,102 @@ fun DynamicValueScreen(navController: NavController, viewModel: OutlineTextField
             modifier = Modifier.weight(0.08f),
             verticalArrangement = Arrangement.Center
         ) {
+           Row(
+               modifier = Modifier.weight(0.5f),
+               verticalAlignment = Alignment.Top
+           ){
+               Column(
+                   modifier = Modifier.padding(start = 10.dp)
+               ) {
+                   Row(
+                       modifier = Modifier.padding(bottom = 25.dp)
+                   ) {
+                       //Кнопка для возвращения на начальный экран
+                       ImageButton(
+                           image = Res.drawable.iconBack,
+                           contentDescription = "Back",
+                           onClick = {
+                               viewModel.constValue.objectControl = ""
+                               viewModel.constValue.supervisor = ""
+                               viewModel.constValue.operator = ""
+                               viewModel.removeAll()
+
+                               navController.navigate("ConstantValueScreen")
+                           }
+                       )
+                   }
+                   //Кнопка для выделения несокольких элементо для дальнеших манипуляций с ними
+                   ImageButton(
+                       "Выделить",
+                       contentDescription = "Select Items",
+                       onClick = {
+                           visibleState.value = !visibleState.value
+                       },
+                       image = Res.drawable.IconSelectItem
+                   )
+                   //Кнопка для удаления элементов из списка.
+                   //При выделении нескольких элементов удаляет их
+                   ImageButton(
+                       text = "Удалить",
+                       image = Res.drawable.IconDelete,
+                       contentDescription = "Delete value",
+                       onClick = {
+                           if (visibleState.value){
+                               viewModel.removeSelectedItem()
+                           }
+                           else{
+                               viewModel.removeItem()
+                           }
+
+                       }
+                   )
+                   //Добовляет элемент в список
+                   ImageButton(
+                       text = "Добавить",
+                       image = Res.drawable.IconAdd,
+                       contentDescription = "Add new value",
+                       onClick = {
+                           viewModel.createInput(
+
+                           )
+                       }
+                   )
+                   //Вызывает меню для дальнейшего сохранения файла в папку
+                   ImageButton(
+                       text = "Сохранить",
+                       image = Res.drawable.iconSave,
+                       contentDescription = "Save",
+                       onClick = {
+                           viewModel.addXlsx()
+                       }
+                   )
+               }
+           }
             Row(
-                modifier = Modifier.padding(bottom = 25.dp)
+                modifier = Modifier
+                    .weight(0.5f)
+                    .padding(20.dp),
+                verticalAlignment = Alignment.Bottom
             ) {
-                //Кнопка для возвращения на начальный экран
-                ImageButton(
-                    image = Res.drawable.iconBack,
-                    contentDescription = "Back",
-                    onClick = {
-                        viewModel.constValue.objectControl = ""
-                        viewModel.constValue.supervisor = ""
-                        viewModel.constValue.operator = ""
-                        viewModel.removeAll()
-
-                        navController.navigate("ConstantValueScreen")
-                    }
-                )
+                Column(
+                    modifier = Modifier.padding(10.dp)
+                ) {
+                    ColorBox(Color.Yellow)
+                    ColorBox(Color.Red)
+                    ColorBox(Color.Gray)
+                    ColorBox(Color.Green)
+                    ColorBox(Color.Magenta)
+                }
+                Column(
+                    modifier = Modifier.padding(10.dp)
+                ) {
+                    ColorBox(Color.Cyan)
+                    ColorBox(Color(255,165,0))
+                    ColorBox(Color(0, 179, 255))
+                    ColorBox(Color(255, 128, 128))
+                    ColorBox(Color(225, 0, 255))
+                }
             }
-            //Кнопка для выделения несокольких элементо для дальнеших манипуляций с ними
-            ImageButton(
-                "Выделить",
-                contentDescription = "Select Items",
-                onClick = {
-                    visibleState.value = !visibleState.value
-                },
-                image = Res.drawable.IconSelectItem
-            )
-            //Кнопка для удаления элементов из списка.
-            //При выделении нескольких элементов удаляет их
-            ImageButton(
-                text = "Удалить",
-                image = Res.drawable.IconDelete,
-                contentDescription = "Delete value",
-                onClick = {
-                    if (visibleState.value){
-                        viewModel.removeSelectedItem()
-                    }
-                    else{
-                        viewModel.removeItem()
-                    }
-
-                }
-            )
-            //Добовляет элемент в список
-            ImageButton(
-                text = "Добавить",
-                image = Res.drawable.IconAdd,
-                contentDescription = "Add new value",
-                onClick = {
-                    viewModel.createInput(
-
-                    )
-                }
-            )
-            //Вызывает меню для дальнейшего сохранения файла в папку
-            ImageButton(
-                text = "Сохранить",
-                image = Res.drawable.iconSave,
-                contentDescription = "Save",
-                onClick = {
-                    viewModel.addXlsx()
-                }
-            )
         }
         Column(
             modifier = Modifier.weight(0.92f)
